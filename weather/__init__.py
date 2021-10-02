@@ -1,13 +1,13 @@
-from flask import Flask,render_template,request,abort
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-# import json to load json data to python dictionary
-import json
-# urllib.request to make a request to api
-import urllib.request
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SECRET_KEY'] = '0d645e4092ffb279ac107ba3'
 db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
 
 from weather import routes

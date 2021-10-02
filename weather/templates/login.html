@@ -6,12 +6,11 @@
 {% block content %}
 <body class="text-center">
     <div class="container">
-        <form method="POST" class='form-login' style="color: white;">
-
+        <form method="POST" class='form-signin' style="color: white;">
+            {{ form.hidden_tag() }}
             <h1>
                 Enter your information to login
             </h1>
-
             <br>
 
             {{ form.username.label() }}
@@ -21,7 +20,7 @@
             {{ form.password(class='form-control', placeholder='Password') }}
             
             <br>
-            {{ form.login(class='btn btn-lg btn-block btn-primary') }}
+            {{ form.submit(class='btn btn-lg btn-block btn-primary') }}
 
         </form>
     </div>
