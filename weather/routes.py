@@ -2,7 +2,7 @@ from weather import app
 from flask import render_template, request, abort,url_for, redirect, flash
 from weather.forms import loginForm
 from weather.models import User
-from flask_login import login_user
+from flask_login import login_user, logout_user, login_required
 import json
 import urllib.request
 
@@ -20,10 +20,11 @@ def weather():
             zipcode = rawZipcode
         else:
             zipcode = '19107'
+            flash('Wrong zipcode', category='danger')
     else:
         #default zipcode
         zipcode = '19107'
-
+    
     # source contain json data from api
     try:
         source = urllib.request.urlopen('http://api.openweathermap.org/data/2.5/weather?zip=' + zipcode + ',us&appid=' + api_key).read()
@@ -48,6 +49,7 @@ def weather():
     return render_template('index.html',data=data)
 
 @app.route('/settings')
+@login_required
 def settings_page():
     return render_template('settings.html')
 
@@ -67,3 +69,10 @@ def login_page():
             flash('Wrong username or password', category='danger')
 
     return render_template('login.html', form=form)
+
+@app.route('/logout')
+def logout_page():
+
+    logout_user()
+    flash("You have been logged out!", category='info')
+    return redirect(url_for('weather'))
